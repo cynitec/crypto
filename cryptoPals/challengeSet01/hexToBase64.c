@@ -1,12 +1,28 @@
 #include <stdio.h>
 
+char hexIn[] = "0x49276D";
+// 4794221
+// SSdt
+// echo "obase=2; 4794221" | bc
+// 00000000 01001001 00100111 01101101
+// 00 000000 010010 010010 011101 101101
+// >> 010010 = 18 = S
+// 010010 = 18 = S
+// 011101 = 29 = d
+// 101101 = 45 = t
+
+char b64Index[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+				  "abcdefghijklmnopqrstuvwxyz"
+                  "0123456789+/";
+
 int main(int argc, char *argv[])
 {
-    int x = 13;     // 1101
+	int x = 0x49276D;
 
-    unsigned char byte = 0;
+	for (int i = 0; i < (sizeof(x)*8)-6; i+=6)
+	{
+		unsigned char byte = ((x>>i)&63);
 
-    byte = (x&1) + (x&2) + (x&4) + (x&8) + (x&16) + (x&32);
-
-    printf("%u\n", byte);
+		printf("%d\t%c\n", byte, b64Index[byte]);
+	}
 }
