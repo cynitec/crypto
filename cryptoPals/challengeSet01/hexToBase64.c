@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "hexToBase64.h"
@@ -23,7 +22,6 @@ char * hexToBase64(const char hexString[])
 
 	if (!b64Out)
 	{
-		puts("Malloc error. Aborting");
 		exit(EXIT_FAILURE);
 	}
 
