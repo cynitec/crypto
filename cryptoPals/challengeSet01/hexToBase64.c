@@ -15,7 +15,8 @@ const char * const hexString =
 	"49276d206b696c6c696e6720796f757220627261696e206c"
 	"696b65206120706f69736f6e6f7573206d757368726f6f6d";
 
-int main(int argc, char *argv[])
+
+char[] hexToBase64(const * const char)
 {
 	size_t hexLen = strlen(hexString);
 	size_t nHexBits = hexLen * 4;
@@ -37,7 +38,20 @@ int main(int argc, char *argv[])
 		b64Out[b64Idx++] = b64Chars[hNum&63];
 	}
 
-	for (size_t i = 0; i < b64Len; i++)
+	return b64Out;
+}
+
+int main(int argc, char *argv[])
+{
+	if (argc < 2)
+	{
+		printf("TODO: usage\n");
+		exit(EXIT_FAILURE);
+	}
+
+	char * b64Out = hexToBase64(argv[1]);
+
+	for (size_t i = 0; i < strLen(b64Out); i++)
 	{
 		printf("%c", b64Out[i]);
 	}
