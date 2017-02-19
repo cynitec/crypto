@@ -1,31 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "hexToBase64.h"
 
-// echo "obase=2; 4794221" | bc
-
-char b64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-				  "abcdefghijklmnopqrstuvwxyz"
-                  "0123456789+/";
-
-const size_t chunkLen = 3;
-const size_t hexCharBits = 4;
-const size_t b64CharBits = 6;
-const char * const hexString =
-	"49276d206b696c6c696e6720796f757220627261696e206c"
-	"696b65206120706f69736f6e6f7573206d757368726f6f6d";
-
-
-char[] hexToBase64(const * const char)
+char * hexToBase64(const char hexString[])
 {
+	const char const b64Chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                              "abcdefghijklmnopqrstuvwxyz"
+                              "0123456789+/";
+	const size_t chunkLen = 3;
+	const size_t hexCharBits = 4;
+	const size_t b64CharBits = 6;
+
 	size_t hexLen = strlen(hexString);
 	size_t nHexBits = hexLen * 4;
 	size_t padding = b64CharBits - (hexCharBits) % b64CharBits;
 	if (padding == b64CharBits) padding = 0;
-	size_t b64Len = (nHexBits + padding) / b64CharBits;
+	size_t b64Len = 1 + ((nHexBits + padding) / b64CharBits);
 
 	size_t b64Idx = 0;
-	char b64Out[b64Len];
+	char *b64Out = malloc(b64Len);
+
+	if (!b64Out)
+	{
+		puts("Malloc error. Aborting");
+		exit(EXIT_FAILURE);
+	}
+
 	memset(b64Out, 0, b64Len);
 
 	for (size_t i = 0; i < hexLen; i += chunkLen)
@@ -39,21 +40,4 @@ char[] hexToBase64(const * const char)
 	}
 
 	return b64Out;
-}
-
-int main(int argc, char *argv[])
-{
-	if (argc < 2)
-	{
-		printf("TODO: usage\n");
-		exit(EXIT_FAILURE);
-	}
-
-	char * b64Out = hexToBase64(argv[1]);
-
-	for (size_t i = 0; i < strLen(b64Out); i++)
-	{
-		printf("%c", b64Out[i]);
-	}
-	puts("");
 }
