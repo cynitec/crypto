@@ -1,8 +1,7 @@
-CXX=gcc
-CXX_FLAGS=-g -Wall
-
-wk01:
-	$(CXX) $^ $(CXX_FLAGS)
+wk01: clean
+	gcc wk01.c -o wk01 -Wall
 
 clean:
-	rm -f wk01 *.o *.d
+	rm -f wk01
+
+.PHONY: clean
